@@ -24,12 +24,64 @@ public class BoardMapperTests {
 	
 	@Setter(onMethod_ = @Autowired)
 	private BoardMapper mapper;
-
+	
+	@Test
+	public void testSearch1() {
+		Criteria cri = new Criteria();
+		cri.setType("T");
+		cri.setKeyword("테스트");
+		
+		mapper.getListWithPaging(cri);
+	}
+	@Test
+	public void testSearch2() {
+		Criteria cri = new Criteria();
+		cri.setType("C");
+		cri.setKeyword("테스트");
+		
+		mapper.getListWithPaging(cri);
+	}
+	@Test
+	public void testSearch3() {
+		Criteria cri = new Criteria();
+		cri.setType("W");
+		cri.setKeyword("테스트");
+		
+		mapper.getListWithPaging(cri);
+	}
+	@Test
+	
+	public void testSearch4() {
+		Criteria cri = new Criteria();
+		cri.setType("TC");
+		cri.setKeyword("테스트");
+		
+		mapper.getListWithPaging(cri);
+	}
+	@Test
+	public void testSearch5() {
+		Criteria cri = new Criteria();
+		cri.setType("TWC");
+		cri.setKeyword("테스트");
+		
+		mapper.getListWithPaging(cri);
+	}
+	@Test
+	public void testSearch6() {
+		Criteria cri = new Criteria();
+		cri.setType("TW");
+		cri.setKeyword("테스트");
+		
+		mapper.getListWithPaging(cri);
+	}
+	
+	
+	
 	@Test
 	public void testGetList() {
 		List<BoardVO> list = mapper.getList();
-
-		// assertEquals(list.size(), 5);
+		
+//		assertEquals(list.size(), 5);
 		assertNotEquals(list.size(), 0);
 	}
 	
@@ -39,48 +91,51 @@ public class BoardMapperTests {
 		board.setTitle("새로 작성하는 제목");
 		board.setContent("새로 작성하는 내용");
 		board.setWriter("newbie");
-
+		
 		int before = mapper.getList().size();
-
+		
 		mapper.insert(board);
-
+		
 		int after = mapper.getList().size();
-
+		
 		assertEquals(before + 1, after);
+		
 	}
-
+	
 	@Test
 	public void testInsertSelectKey() {
 		BoardVO board = new BoardVO();
 		board.setTitle("새로 작성하는 제목");
 		board.setContent("새로 작성하는 내용");
 		board.setWriter("newbie");
-
+		
 		int before = mapper.getList().size();
-
+		
 		mapper.insertSelectKey(board);
-
+		
 		int after = mapper.getList().size();
-
+		
 		assertEquals(before + 1, after);
 		assertNotEquals(board.getBno(), new Long(0L));
+		
 	}
-
+	
 	@Test
 	public void testRead() {
 		BoardVO board = new BoardVO();
 		board.setTitle("새로 작성하는 제목");
 		board.setContent("새로 작성하는 내용");
 		board.setWriter("newbie");
-
+		
 		mapper.insertSelectKey(board);
-
+		
 		BoardVO readBoard = mapper.read(board.getBno());
-
+		
 		assertNotNull(readBoard);
 		assertEquals(readBoard.getBno(), board.getBno());
+		
 	}
-
+	
 	@Test
 	public void testDelete() {
 		BoardVO board = new BoardVO();
@@ -103,6 +158,7 @@ public class BoardMapperTests {
 		
 		
 	}
+	
 	@Test
 	public void testUpdate() {
 		BoardVO board = new BoardVO();
@@ -114,7 +170,7 @@ public class BoardMapperTests {
 		
 		board.setTitle("변경된 제목");
 		board.setContent("변경된 내용");
-		int cnt =mapper.update(board);
+		int cnt = mapper.update(board);
 		
 		assertEquals(1, cnt);
 		
@@ -126,20 +182,25 @@ public class BoardMapperTests {
 	
 	@Test
 	public void testPaging() {
-		Criteria cri = new Criteria(1,5);
+		Criteria cri = new Criteria(1, 5);
 		List<BoardVO> list = mapper.getListWithPaging(cri);
 		
 		assertEquals(5, list.size());
 		
-		cri = new Criteria(1,10);
-		 list = mapper.getListWithPaging(cri);
-		 
-		 assertEquals(10, list.size());
-		 
-		 cri = new Criteria(2,5);
-		 list = mapper.getListWithPaging(cri);
-		 
+		cri = new Criteria(1, 10);
+		list = mapper.getListWithPaging(cri);
+		
+		assertEquals(10, list.size());
+		
+		cri = new Criteria(2, 5);
+		list = mapper.getListWithPaging(cri);
+		
 		list.forEach(board -> log.info("번호:" + board.getBno()));
 	}
-	
 }
+
+
+
+
+
+

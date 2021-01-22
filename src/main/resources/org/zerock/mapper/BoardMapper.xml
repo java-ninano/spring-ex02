@@ -4,14 +4,32 @@
   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="org.zerock.mapper.BoardMapper">
+<sql id="criteria">
+  <where>
+		<foreach item="type" collection="typeArr" separator="OR">
+			<choose>
+				<when test="type == 'T'.toString()">
+					title LIKE '%' || #{keyword} || '%' <!-- 연결 연산자 : || -->
+				</when>
+				<when test="type == 'C'.toString()">
+					content LIKE '%' || #{keyword} || '%' 
+				</when>
+				<when test="type == 'W'.toString()">
+					writer LIKE '%' || #{keyword} || '%' 
+				</when>
+			</choose>
+		</foreach>
+	   </where>
+</sql>
 	<select id="getList" resultType="org.zerock.domain.BoardVO">
 <![CDATA[
 		select * from tbl_board where bno > 0
-]]>		
-		
+]]>
+
 	</select>
-	
-	<select id="getListWithPaging" resultType="org.zerock.domain.BoardVO">
+
+	<select id="getListWithPaging"
+		resultType="org.zerock.domain.BoardVO">
 <![CDATA[	
 	SELECT
 	 bno, title, content,
@@ -24,49 +42,61 @@
 	   regdate, updatedate
 	  FROM
 	   tbl_board
-	 )
-	WHERE
+	   ]]>
+	 
+	  <include refid="criteria"></include> 
+	   
+	   <![CDATA[
+	   ) WHERE
 	 rn BETWEEN (#{pageNum} - 1) * #{amount} + 1 AND #{pageNum} * #{amount}
-]]>		
+	   ]]>
+
+
+
 	</select>
-	
-	
+
+
 	<insert id="insert">
 		insert into tbl_board (bno, title, content, writer)
 		values (seq_board.nextval, #{title}, #{content}, #{writer})
 	</insert>
-	
+
 	<insert id="insertSelectKey">
-		<selectKey keyProperty="bno" order="BEFORE" resultType="long">
-		select seq_board.nextval from dual
+		<selectKey keyProperty="bno" order="BEFORE"
+			resultType="long">
+			select seq_board.nextval from dual
 		</selectKey>
-	
+
 		insert into tbl_board (bno, title, content, writer)
-		values (#{bno }, #{title}, #{content}, #{writer})
+		values (#{bno },
+		#{title}, #{content}, #{writer})
 	</insert>
-	
+
 	<select id="read" resultType="org.zerock.domain.BoardVO">
 		select * from tbl_board where bno = #{bno} <!--parameter값 -->
 	</select>
-	
+
 	<delete id="delete">
 		delete from tbl_board where bno = #{bno}
 	</delete>
-	
+
 	<update id="update">
-	UPDATE tbl_board
-	SET
-	  title = #{title},
-	  content = #{content},
-	  writer = #{writer},
-	  updateDate = sysdate
-	WHERE
-	  bno = #{bno}
+		UPDATE tbl_board
+		SET
+		title = #{title},
+		content = #{content},
+		writer = #{writer},
+		updateDate = sysdate
+		WHERE
+		bno = #{bno}
 	</update>
-	
+
 	<select id="getTotalCount" resultType="int">
-	SELECT count(*) FROM tbl_board 
-	
+		SELECT count(*) FROM tbl_board
+ 
+ <include refid="criteria"></include> <!-- where절 sql문을 따로 뺌 -->
+	   
+	   
 	</select>
 </mapper>
 
