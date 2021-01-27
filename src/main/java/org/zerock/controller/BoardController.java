@@ -105,10 +105,11 @@ public class BoardController {
 		
 	}
 
-	@PostMapping("/modify") //페이지 수정 후 원래페이지로 
+	@PostMapping("/modify") //페이지 수정 후 원래페이지로 , 수정완료 후 넘어가는 애들
 	public String modify(BoardVO board,Criteria cri,RedirectAttributes rttr) {
 		/*
-		 * 이전코드 BoardVO board = new BoardVO();
+		 * 이전코드 
+		 * BoardVO board = new BoardVO();
 		 * board.setBno(request.getParameter("bno"));
 		 * board.setTitle(request.getParameter("title"));
 		 * board.setContent(request.getPatameter("content"));
@@ -121,8 +122,11 @@ public class BoardController {
 			// 있으면 modal창 띄우기
 		}
 		log.info(cri);
-		rttr.addAttribute("pageNum", cri.getPageNum());
+		rttr.addAttribute("pageNum", cri.getPageNum()); //rttr + addattr
 		rttr.addAttribute("amount", cri.getAmount());
+		// 2021.01.22 글 수정 완료후 번호유지
+		rttr.addAttribute("type", cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 
 		return "redirect:/board/list";
 	}
@@ -156,6 +160,8 @@ public class BoardController {
 		}
 		rttr.addAttribute("pageNum", cri.getPageNum());
 		rttr.addAttribute("amount", cri.getAmount());
+		rttr.addAttribute("type",cri.getType());
+		rttr.addAttribute("keyword", cri.getKeyword());
 
 		return "redirect:/board/list";
 	}

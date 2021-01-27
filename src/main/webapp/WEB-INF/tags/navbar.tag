@@ -18,12 +18,17 @@
 						var="listLink">
 						<c:param name="pageNum" value="${cri.pageNum }" />
 						<c:param name="amount" value="${cri.amount }" />
-					</c:url> <a class="nav-link" href="${listLink }">목록 <span
-						class="sr-only">(current)</span></a></li>
+						<c:param name="type" value="${cri.type }" />
+						<c:param name="keyword" value="${cri.keyword }" />
+					</c:url> 
+					<a class="nav-link" href="${listLink }">목록 
+					<span class="sr-only">(current)</span></a></li>
 				<li class="nav-item"><c:url value="/board/register"
 						var="registerLink">
 						<c:param name="pageNum" value="${cri.pageNum }"></c:param>
 						<c:param name="amount" value="${cri.amount }"></c:param>
+						<c:param name="type" value="${cri.type }" />
+						<c:param name="keyword" value="${cri.keyword }" />
 					</c:url> <a class="nav-link" href="${registerLink}">글쓰기</a></li>
 			</ul>
 
