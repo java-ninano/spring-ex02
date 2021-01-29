@@ -74,7 +74,7 @@ public class ReplyController {
 		// localhost:8080/replies/pages/203/1
 	}
 
-	// 397page
+	// 397page,댓글 하나보기
 	@GetMapping(value = "/{rno}",
 			// get 방식
 			produces = MediaType.APPLICATION_JSON_UTF8_VALUE)
@@ -85,11 +85,15 @@ public class ReplyController {
 
 		return new ResponseEntity<ReplyVO>(vo, HttpStatus.OK);
 
-		// localhost:8080/replies/2
-		// json : 날짜 type 없음 -->숫자 타입으로 리턴
-		// "replyDate": 1611511652000,
-		// "updateDate": 1611514140000
-
+		/* localhost:8080/replies/2
+		 json : 날짜 type 없음 -->숫자 타입으로 리턴
+		 "rno": 25,
+		    "bno": 197,
+		    "reply": "new reply999",
+		    "replyer": "replyer3",
+		    "replyDate": 1611512345000,
+		    "updateDate": 1611700280000
+         */
 	}
 
 	@DeleteMapping(value = "/{rno}", produces = MediaType.TEXT_PLAIN_VALUE)
