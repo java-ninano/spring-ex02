@@ -301,7 +301,7 @@ $(document).ready(function() {
 					</div>
 					<div class="form-group">
 						<label for="replyer-input" class="col-form-label"> 작성자 </label> 
-						<input readonly type="text" class="form-control" id="replyer-input">
+						<input type="text" class="form-control" id="replyer-input">
 					</div>
 				</div>
 

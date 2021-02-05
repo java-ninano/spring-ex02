@@ -93,7 +93,10 @@
             </c:url>
             
             <a href="${boardLink }"> <!-- link, var ==>href로 -->
-	            <c:out value="${board.title}" /> 
+	           <c:out value="${board.title}" />
+	            <c:if test="${board.replyCnt gt 0 }">
+		            <span class="badge badge-info">${board.replyCnt }</span>
+	            </c:if>
             </a>
             
             </td>
